@@ -1,0 +1,12 @@
+{
+  "orgName": "pozil",
+  "edition": "Developer",
+  "hasSampleData": true,
+  "features": [],
+  "settings": {
+    "orgPreferenceSettings": {
+      "s1DesktopEnabled": true,
+      "s1EncryptedStoragePref2": false
+    }
+  }
+}
