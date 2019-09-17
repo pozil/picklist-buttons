@@ -17,10 +17,25 @@ export default class PicklistRadio extends LightningElement {
     @track buttons = [];
     @track errorMessage;
 
+    hasRecordTypeId;
+    defaultRecordTypeId;
 
     // Extract object information including default record type id
     @wire(getObjectInfo, { objectApiName: '$objectApiName' })
-    objectInfo;
+    getObjectInfo({ error, data }) {
+        if (data) {
+            this.defaultRecordTypeId = data.defaultRecordTypeId;
+            // Check if we need to override record type with default
+            if (this.hasRecordTypeId === false) {
+                this.recordTypeId = this.defaultRecordTypeId;
+            } 
+        } else if (error) {
+            const message = `Failed to retrieve object info. ${this.reduceErrors(error)}`;
+            this.errorMessage = message;
+        }
+    }
+
+
 
     // Extract picklist values
     @wire(getPicklistValues, {
@@ -50,9 +65,14 @@ export default class PicklistRadio extends LightningElement {
         if (data) {
             // Check if record data includes record type
             if (data.recordTypeInfo) {
+                this.hasRecordTypeId = true;
                 this.recordTypeId = data.recordTypeInfo.recordTypeId;
-            } else { // Use default record type
-                this.recordTypeId = this.objectInfo.data.defaultRecordTypeId;
+            } else { // Record type is missing from record data
+                this.hasRecordTypeId = false;
+                // Use default type if available (it could still be loading)
+                if (this.defaultRecordTypeId) {
+                    this.recordTypeId = this.defaultRecordTypeId;
+                }
             }
             // Get current picklist value
             const fieldName = this.getFieldName();
