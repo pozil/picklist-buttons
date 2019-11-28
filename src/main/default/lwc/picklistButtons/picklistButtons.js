@@ -30,12 +30,9 @@ export default class PicklistRadio extends LightningElement {
                 this.recordTypeId = this.defaultRecordTypeId;
             } 
         } else if (error) {
-            const message = `Failed to retrieve object info. ${this.reduceErrors(error)}`;
-            this.errorMessage = message;
+            this.errorMessage = `Failed to retrieve object info. ${this.reduceErrors(error)}`;
         }
     }
-
-
 
     // Extract picklist values
     @wire(getPicklistValues, {
@@ -51,8 +48,7 @@ export default class PicklistRadio extends LightningElement {
                 };
             });
         } else if (error) {
-            const message = `Failed to retrieve picklist values. ${this.reduceErrors(error)}`;
-            this.errorMessage = message;
+            this.errorMessage = `Failed to retrieve picklist values. ${this.reduceErrors(error)}`;
         }
     }
 
@@ -78,8 +74,7 @@ export default class PicklistRadio extends LightningElement {
             const fieldName = this.getFieldName();
             this.picklistValue = data.fields[fieldName].value;
         } else if (error) {
-            const message = `Failed to retrieve record data. ${this.reduceErrors(error)}`;
-            this.errorMessage = message;
+            this.errorMessage = `Failed to retrieve record data. ${this.reduceErrors(error)}`;
         }
     }
 
